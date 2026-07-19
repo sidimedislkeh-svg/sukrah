@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUKRAH FASHION ABAYAS | سُكرة للعبايات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="header-icons">
+      <button class="icon-btn" id="cartToggle" aria-label="سلة المشتريات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="badge" id="cartCount">0</span>
+      </button>
+      <button class="icon-btn" id="wishlistToggle" aria-label="المفضلة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.35-9.5-8.8C.8 7.7 2.4 4.5 5.7 4c2-.3 3.7.7 4.9 2.4C11.7 4.7 13.5 3.7 15.5 4c3.3.5 4.9 3.7 3.2 7.2C19 15.65 12 20 12 20Z"/></svg>
+      </button>
+    </div>
+    <p class="welcome-msg" id="welcomeMsg">مرحبًا بك في سُكرة</p>
+  </div>
+
+  <div class="header-logo">
+    <h1 class="logo-text" id="storeName">SUKRAH</h1>
+    <span class="logo-slogan" id="storeSlogan">FASHION ABAYAS</span>
+  </div>
+
+  <div class="header-search">
+    <div class="search-box">
+      <input type="text" placeholder="ابحثي عن عبايتك..." id="searchInput" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </div>
+  </div>
+
+  <nav class="header-nav">
+    <a href="#" class="nav-link active" data-filter="all">الرئيسية</a>
+    <a href="#" class="nav-link" data-filter="all">العبايات</a>
+    <a href="#" class="nav-link" data-filter="new">وصل حديثًا</a>
+    <a href="#" class="nav-link" data-filter="luxury">العبايات الفاخرة</a>
+    <a href="#" class="nav-link" data-filter="prayer">للصلاة</a>
+    <a href="#" class="nav-link" data-filter="about">من نحن</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h2 class="hero-title">أناقتك.. تبدأ<br />من سُكرة</h2>
+      <p class="hero-subtitle">عبايات فاخرة بتصاميم راقية</p>
+      <button class="btn btn-gold hero-btn" id="shopNowBtn">تسوقي الآن</button>
+    </div>
+    <div class="hero-image">
+      <img src="hero-abaya.webp" alt="عارضة ترتدي عباية سُكرة الفاخرة">
+    </div>
+  </div>
+  <div class="hero-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="products-section" id="products">
+  <div class="section-heading">
+    <h2>وصل حديثًا</h2>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <!-- تُبنى بطاقات المنتجات ديناميكيًا عبر script.js -->
+  </div>
+</section>
+
+<!-- ============ OVERLAY ============ -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ============ CART SIDEBAR ============ -->
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <button class="close-btn" id="closeCart" aria-label="إغلاق">✕</button>
+    <h3>سلة مشترياتك</h3>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty" id="cartEmptyMsg">سلتك فارغة حاليًا</p>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span id="cartSubtotal">0 ريال</span>
+      <span>المجموع الفرعي</span>
+    </div>
+    <button class="btn btn-gold btn-block" id="confirmOrderBtn">تأكيد الطلب</button>
+    <button class="btn btn-dark btn-block" id="whatsappOrderBtn">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18c-1.62 0-3.13-.44-4.44-1.2l-.32-.19-3 .79.8-2.93-.2-.3A7.94 7.94 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Zm4.38-5.86c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.31-1.63-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.13 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+      إرسال الطلب عبر واتساب
+    </button>
+  </div>
+</aside>
+
+<!-- ============ PRODUCT SELECTION MODAL ============ -->
+<div class="modal" id="selectionModal">
+  <div class="modal-box">
+    <button class="close-btn" id="closeSelectionModal" aria-label="إغلاق">✕</button>
+    <div class="modal-product" id="modalProductInfo"></div>
+
+    <div class="modal-field">
+      <label>اللون</label>
+      <div class="option-group" id="modalColors"></div>
+    </div>
+
+    <div class="modal-field">
+      <label>المقاس</label>
+      <div class="option-group" id="modalSizes"></div>
+    </div>
+
+    <div class="modal-field">
+      <label>الكمية</label>
+      <div class="qty-control">
+        <button id="modalQtyMinus">-</button>
+        <span id="modalQtyValue">1</span>
+        <button id="modalQtyPlus">+</button>
+      </div>
+    </div>
+
+    <p class="modal-error" id="modalError"></p>
+    <button class="btn btn-gold btn-block" id="modalAddBtn">إضافة للسلة</button>
+  </div>
+</div>
+
+<!-- ============ ORDER CONFIRMATION MODAL ============ -->
+<div class="modal" id="orderModal">
+  <div class="modal-box">
+    <button class="close-btn" id="closeOrderModal" aria-label="إغلاق">✕</button>
+    <h3 class="modal-title">إرسال الطلب عبر واتساب</h3>
+
+    <form id="orderForm">
+      <div class="form-field">
+        <label>الاسم الكامل</label>
+        <input type="text" id="customerName" placeholder="اكتبي اسمك الكامل" required />
+      </div>
+      <div class="form-field">
+        <label>رقم الهاتف</label>
+        <input type="tel" id="customerPhone" placeholder="05xxxxxxxx" required />
+      </div>
+      <div class="form-field">
+        <label>العنوان</label>
+        <input type="text" id="customerAddress" placeholder="اكتبي عنوان التوصيل" required />
+      </div>
+      <div class="form-field">
+        <label>ملاحظات إضافية (اختياري)</label>
+        <input type="text" id="customerNotes" placeholder="أي ملاحظات أخرى" />
+      </div>
+      <button type="submit" class="btn btn-dark btn-block">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18c-1.62 0-3.13-.44-4.44-1.2l-.32-.19-3 .79.8-2.93-.2-.3A7.94 7.94 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Zm4.38-5.86c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.31-1.63-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.13 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+        إرسال الطلب
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="brand.js"></script>
+<script src="products.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
