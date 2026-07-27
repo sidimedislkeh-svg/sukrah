@@ -393,7 +393,8 @@ input { font-family: inherit; }
 .fav-btn.active svg { fill: #c0392b; }
 
 .card-body { padding: 14px; }
-.card-name { font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+.card-name { font-size: 14.5px; font-weight: 700; margin-bottom: 4px; cursor: pointer; }
+.card-slider-track img { cursor: pointer; }
 .card-price { font-size: 14px; color: var(--color-gold); font-weight: 700; margin-bottom: 10px; }
 
 .color-dots { display: flex; gap: 6px; margin-bottom: 12px; }

@@ -1,0 +1,245 @@
+/* =========================================================
+   product.css — صفحة تفاصيل المنتج (PDP)
+   يعتمد على متغيرات الألوان والخطوط المعرّفة في style.css
+   ========================================================= */
+
+.pdp-section {
+  padding: 18px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.back-to-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  transition: color var(--transition);
+}
+.back-to-store:hover { color: var(--color-primary); }
+.back-to-store svg { transform: scaleX(-1); } /* السهم يشير لليمين لتناسب اتجاه RTL */
+
+.pdp-not-found {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-muted);
+}
+.pdp-not-found p { margin-bottom: 18px; font-size: 15px; }
+
+/* ---------------------------------------------------------
+   التخطيط العام: عمود واحد على الهاتف، عمودين على الكمبيوتر
+--------------------------------------------------------- */
+.pdp-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+@media (min-width: 900px) {
+  .pdp-wrapper {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+}
+
+/* ---------------------------------------------------------
+   معرض الصور
+--------------------------------------------------------- */
+.pdp-gallery { width: 100%; }
+
+.pdp-main-media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  touch-action: pan-y;
+  direction: ltr;
+}
+.pdp-main-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.35s ease;
+  direction: ltr;
+}
+.pdp-main-track img {
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* إعادة استخدام تصميم الأسهم والنقاط من style.css مع تكبير بسيط لملاءمة الصورة الكبيرة */
+.pdp-main-media .slider-arrow {
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  display: flex;
+}
+.pdp-main-media .slider-dots span { width: 6px; height: 6px; }
+
+.pdp-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.pdp-thumb {
+  flex: 0 0 auto;
+  width: 66px;
+  height: 82px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: border-color var(--transition), opacity var(--transition);
+  background: var(--color-bg-alt);
+}
+.pdp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pdp-thumb.active { border-color: var(--color-gold); opacity: 1; }
+
+/* ---------------------------------------------------------
+   معلومات المنتج
+--------------------------------------------------------- */
+.pdp-info { padding-bottom: 10px; }
+
+.pdp-badges { display: flex; gap: 8px; margin-bottom: 10px; }
+
+.pdp-name {
+  font-family: "Aref Ruqaa", serif;
+  font-size: 26px;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.pdp-price {
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--color-gold);
+  margin-bottom: 18px;
+}
+
+.pdp-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 18px 0;
+}
+
+.pdp-field { margin-bottom: 20px; }
+.pdp-field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+.pdp-field-label .selected-value {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.pdp-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pdp-error {
+  color: #c0392b;
+  font-size: 12.5px;
+  margin-bottom: 10px;
+  min-height: 16px;
+}
+
+.pdp-add-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+}
+
+.pdp-secondary-note {
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   أقسام إضافية: الوصف / الخامة / العناية / التفاصيل
+--------------------------------------------------------- */
+.pdp-extra { margin-top: 12px; }
+.pdp-extra-block {
+  border-top: 1px solid var(--color-border);
+  padding: 16px 0;
+}
+.pdp-extra-block h3 {
+  font-size: 14.5px;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+.pdp-extra-block p {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  line-height: 1.9;
+}
+.pdp-extra-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pdp-extra-block ul li {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  line-height: 2;
+  position: relative;
+  padding-right: 16px;
+}
+.pdp-extra-block ul li::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+/* ---------------------------------------------------------
+   شريط إضافة سفلي ثابت (للهاتف فقط) — تجربة أقرب لمتاجر مثل SHEIN
+--------------------------------------------------------- */
+.mobile-add-bar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 45;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.06);
+}
+.mobile-add-price {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+.mobile-add-bar .btn { flex: 0 0 auto; padding: 12px 26px; }
+
+@media (min-width: 900px) {
+  .mobile-add-bar { display: none !important; }
+  .pdp-section { padding: 26px 6% 70px; }
+}

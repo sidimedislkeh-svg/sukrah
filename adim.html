@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>لوحة الإدارة | SUKRAH FASHION ABAYAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-body">
+
+<!-- ============ شاشة تسجيل الدخول ============ -->
+<div class="admin-login-screen" id="adminLoginScreen">
+  <div class="admin-login-box">
+    <h1 class="logo-text" style="text-align:center;">SUKRAH</h1>
+    <span class="logo-slogan" style="display:block; text-align:center; margin-bottom:24px;">لوحة الإدارة</span>
+
+    <form id="adminLoginForm">
+      <div class="form-field">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="adminEmail" placeholder="admin@example.com" required />
+      </div>
+      <div class="form-field">
+        <label>كلمة المرور</label>
+        <input type="password" id="adminPassword" placeholder="••••••••" required />
+      </div>
+      <p class="admin-error" id="loginError"></p>
+      <button type="submit" class="btn btn-dark btn-block">تسجيل الدخول</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ لوحة الإدارة (تظهر فقط بعد تسجيل الدخول) ============ -->
+<div class="admin-panel" id="adminPanel" style="display:none;">
+
+  <header class="admin-topbar">
+    <div class="admin-topbar-title">
+      <span class="logo-text" style="font-size:22px;">SUKRAH</span>
+      <span class="admin-topbar-subtitle">لوحة إدارة المنتجات</span>
+    </div>
+    <div class="admin-topbar-actions">
+      <a href="index.html" class="admin-link" target="_blank">عرض المتجر</a>
+      <button class="btn btn-gold" id="addProductBtn">+ إضافة منتج</button>
+      <button class="admin-logout-btn" id="logoutBtn">تسجيل الخروج</button>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <div id="adminEmptyState" class="admin-empty-state" style="display:none;">
+      لا توجد منتجات حتى الآن. اضغطي على "إضافة منتج" للبدء.
+    </div>
+
+    <div class="admin-products-table-wrap">
+      <table class="admin-products-table" id="adminProductsTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>الصورة</th>
+            <th>الاسم</th>
+            <th>السعر</th>
+            <th>الفئة</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="adminProductsBody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- ============ نافذة إضافة / تعديل منتج ============ -->
+<div class="admin-modal" id="productModal">
+  <div class="admin-modal-box">
+    <button class="close-btn" id="closeProductModal" aria-label="إغلاق">✕</button>
+    <h2 class="admin-modal-title" id="productModalTitle">إضافة منتج جديد</h2>
+
+    <form id="productForm">
+      <div class="admin-form-grid">
+        <div class="form-field">
+          <label>اسم المنتج</label>
+          <input type="text" id="fieldName" placeholder="مثال: عباية سُكرة السوداء" required />
+        </div>
+
+        <div class="form-field">
+          <label>السعر (ريال)</label>
+          <input type="number" id="fieldPrice" min="0" step="1" placeholder="450" required />
+        </div>
+
+        <div class="form-field">
+          <label>الفئة</label>
+          <select id="fieldCategory" required>
+            <option value="new">وصل حديثًا</option>
+            <option value="luxury">العبايات الفاخرة</option>
+            <option value="prayer">للصلاة</option>
+          </select>
+        </div>
+
+        <div class="form-field admin-sizes-field">
+          <label>المقاسات المتوفرة</label>
+          <div class="admin-checkbox-group" id="fieldSizes">
+            <label><input type="checkbox" value="S" /> S</label>
+            <label><input type="checkbox" value="M" /> M</label>
+            <label><input type="checkbox" value="L" /> L</label>
+            <label><input type="checkbox" value="XL" /> XL</label>
+            <label><input type="checkbox" value="XXL" /> XXL</label>
+          </div>
+        </div>
+
+        <div class="form-field admin-toggles-field">
+          <label class="admin-toggle-label">
+            <input type="checkbox" id="fieldIsNew" /> عرض شارة "جديد"
+          </label>
+          <label class="admin-toggle-label">
+            <input type="checkbox" id="fieldAvailable" checked /> ظاهر للزوّار (متاح)
+          </label>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>الوصف (اختياري)</label>
+        <textarea id="fieldDescription" rows="3" placeholder="وصف مختصر للمنتج"></textarea>
+      </div>
+
+      <div class="admin-form-grid">
+        <div class="form-field">
+          <label>الخامة (اختياري)</label>
+          <input type="text" id="fieldFabric" placeholder="مثال: كريب فاخر" />
+        </div>
+        <div class="form-field">
+          <label>العناية بالمنتج (اختياري)</label>
+          <input type="text" id="fieldCare" placeholder="مثال: يُغسل غسيلاً جافًا" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>تفاصيل إضافية (اختياري — كل نقطة في سطر منفصل)</label>
+        <textarea id="fieldDetails" rows="3" placeholder="قصة واسعة مريحة&#10;أكمام طويلة كلاسيكية"></textarea>
+      </div>
+
+      <div class="form-field admin-color-variants-field">
+        <label>الألوان وصور كل لون</label>
+        <p class="admin-hint">أضيفي أي عدد من الألوان. لكل لون: اكتبي اسمه، ثم ضعي مسار كل صورة خاصة به في سطر منفصل داخل مجلد images/.</p>
+        <div class="admin-color-variants" id="colorVariantsContainer">
+          <!-- تُبنى صفوف الألوان ديناميكيًا عبر admin.js -->
+        </div>
+        <button type="button" class="btn btn-light admin-add-color-btn" id="addColorVariantBtn">+ إضافة لون جديد</button>
+      </div>
+
+      <p class="admin-error" id="productFormError"></p>
+
+      <div class="admin-form-actions">
+        <button type="button" class="btn btn-light" id="cancelProductBtn">إلغاء</button>
+        <button type="submit" class="btn btn-dark" id="saveProductBtn">حفظ المنتج</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="brand.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

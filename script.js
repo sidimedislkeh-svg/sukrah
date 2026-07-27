@@ -3,8 +3,9 @@
    منطق المتجر: العرض، السلة، السلايدر، النوافذ المنبثقة، واتساب
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   applyBrand();
+  await loadProducts(); // جلب المنتجات من Firestore (products.js) قبل عرضها
   renderProducts(PRODUCTS);
   loadCart();
   bindGlobalEvents();
@@ -189,7 +190,7 @@ function renderProducts(list) {
       .join("");
 
     const colorsHtml = product.colors
-      .map((c) => `<span style="background:${colorToHex(c)}" title="${c}"></span>`)
+      .map((c) => `<span style="background:${getColorHexForCard(product, c)}" title="${c}"></span>`)
       .join("");
 
     card.innerHTML = `
@@ -233,9 +234,17 @@ function renderProducts(list) {
       btn.classList.toggle("active");
     });
   });
+
+  // الضغط على اسم المنتج يفتح صفحة تفاصيل المنتج (product.html)
+  grid.querySelectorAll(".card-name").forEach((nameEl) => {
+    nameEl.addEventListener("click", () => {
+      window.location.href = `product.html?id=${nameEl.closest(".product-card").dataset.id}`;
+    });
+  });
 }
 
-/* لون تقريبي لكل اسم لون عربي يُستخدم في دوائر الألوان */
+/* لون تقريبي لكل اسم لون عربي — يُستخدم فقط كحل احتياطي أخير
+   عندما لا يوجد كود Hex حقيقي محفوظ للمنتج */
 function colorToHex(name) {
   const map = {
     "أسود": "#232022",
@@ -247,6 +256,17 @@ function colorToHex(name) {
     "بنفسجي داكن": "#3a1c37",
   };
   return map[name] || "#cccccc";
+}
+
+/* يعيد كود Hex الحقيقي المحفوظ لهذا اللون في colorVariants إن وُجد
+   (يدعم شكل المصفوفة الحالي [{name, hex, images}] والشكل الكائني
+   السابق {name: [images]} بلا hex)، وإلا يستخدم colorToHex كتخمين احتياطي */
+function getColorHexForCard(product, colorName) {
+  if (Array.isArray(product.colorVariants)) {
+    const match = product.colorVariants.find((v) => v.name === colorName);
+    if (match && match.hex) return match.hex;
+  }
+  return colorToHex(colorName);
 }
 
 /* ---------------------------------------------------------
@@ -292,21 +312,36 @@ function initCardSlider(card) {
     if (!dragging) return;
     dragging = false;
     track.style.transition = "transform 0.35s ease";
+    const wasTap = Math.abs(currentTranslate) < 6; // نقرة بسيطة بدون سحب فعلي
     if (currentTranslate < -40) {
       goTo(index + 1); // سحب لليسار -> الصورة التالية
     } else if (currentTranslate > 40) {
       goTo(index - 1); // سحب لليمين -> الصورة السابقة
     } else {
       goTo(index);
+      if (wasTap) {
+        // نقرة على صورة المنتج (وليست سحبًا) -> فتح صفحة تفاصيل المنتج
+        window.location.href = `product.html?id=${card.dataset.id}`;
+      }
     }
     currentTranslate = 0;
   }
 
-  media.addEventListener("touchstart", (e) => dragStart(e.touches[0].clientX), { passive: true });
+  // نتجاهل بدء السحب إذا كان الضغط على أزرار السلايدر أو زر المفضلة
+  // حتى لا يتعارض ذلك مع وظيفتها الحالية أو مع الانتقال لصفحة التفاصيل
+  function isControlTarget(target) {
+    return target.closest(".slider-arrow") || target.closest(".fav-btn");
+  }
+
+  media.addEventListener("touchstart", (e) => {
+    if (isControlTarget(e.target)) return;
+    dragStart(e.touches[0].clientX);
+  }, { passive: true });
   media.addEventListener("touchmove", (e) => dragMove(e.touches[0].clientX), { passive: true });
   media.addEventListener("touchend", dragEnd);
 
   media.addEventListener("mousedown", (e) => {
+    if (isControlTarget(e.target)) return;
     e.preventDefault();
     dragStart(e.clientX);
   });
