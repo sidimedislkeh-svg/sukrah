@@ -292,12 +292,21 @@ function initCardSlider(card) {
   let currentTranslate = 0;
   let dragging = false;
 
-  function goTo(newIndex) {
-    index = Math.max(0, Math.min(count - 1, newIndex));
-    track.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle("active", i === index));
-    media.dataset.index = index;
+ function goTo(newIndex) {
+  if (count <= 0) return;
+
+  if (newIndex >= count) {
+    index = 0;
+  } else if (newIndex < 0) {
+    index = count - 1;
+  } else {
+    index = newIndex;
   }
+
+  track.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  media.dataset.index = index;
+}
 
   card.querySelector(".slider-arrow.prev").addEventListener("click", (e) => {
     e.stopPropagation();

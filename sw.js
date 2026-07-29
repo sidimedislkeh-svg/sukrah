@@ -9,7 +9,7 @@
 // ⚠️ عند نشر أي تحديث على ملفات المتجر (HTML/CSS/JS)، غيّري هذا
 // الرقم فقط (مثلاً من "v1" إلى "v2") حتى يقوم المتصفح بتفعيل نسخة
 // جديدة من الملفات المخزّنة بدل الاعتماد على النسخة القديمة.
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 
 const STATIC_CACHE_NAME = `sukrah-static-${CACHE_VERSION}`;
 const IMAGES_CACHE_NAME = `sukrah-images-${CACHE_VERSION}`;
