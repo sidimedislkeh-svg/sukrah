@@ -5,10 +5,20 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   applyBrand();
-  await loadProducts(); // جلب المنتجات من Firestore (products.js) قبل عرضها
+
+  // 1) عرض فوري: من الكاش المحفوظ محليًا، أو من بيانات احتياطية ثابتة إن لم يوجد كاش بعد
+  const { isFresh } = loadProductsInitial();
   renderProducts(PRODUCTS);
   loadCart();
   bindGlobalEvents();
+
+  // 2) تحديث من Firestore في الخلفية فقط إذا كان الكاش غير حديث (لتقليل القراءات)
+  if (!isFresh) {
+    const changed = await refreshProductsFromFirestore();
+    if (changed) {
+      renderProducts(PRODUCTS); // إعادة الرسم فقط إذا وصلت بيانات مختلفة فعليًا
+    }
+  }
 });
 
 /* ---------------------------------------------------------

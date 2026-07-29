@@ -8,10 +8,31 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   applyBrand();
-  await loadProducts(); // جلب المنتجات من Firestore (products.js) قبل البحث عن المنتج المطلوب
   loadCart();
   bindGlobalEvents();
-  initProductPage();
+
+  // 1) عرض فوري: من الكاش المحفوظ محليًا، أو من بيانات احتياطية ثابتة إن لم يوجد كاش بعد
+  const { isFresh } = loadProductsInitial();
+  let product = findRequestedProduct();
+  if (product) {
+    showProductDetail(product);
+  }
+
+  // 2) تحديث من Firestore في الخلفية إذا كان الكاش غير حديث، أو إذا لم نجد
+  //    المنتج المطلوب بعد (قد يكون منتجًا أُضيف حديثًا وليس ضمن الكاش الحالي)
+  if (!isFresh || !product) {
+    const changed = await refreshProductsFromFirestore();
+    const freshProduct = findRequestedProduct();
+
+    if (freshProduct) {
+      // نعيد الرسم فقط إذا لم يكن معروضًا من قبل، أو إذا تغيّرت بياناته فعليًا
+      if (!product || changed) {
+        showProductDetail(freshProduct);
+      }
+    } else if (!product) {
+      showNotFoundMessage();
+    }
+  }
 });
 
 /* ---------------------------------------------------------
@@ -279,16 +300,17 @@ function getProductIdFromURL() {
   return params.get("id");
 }
 
-function initProductPage() {
+function findRequestedProduct() {
   const id = getProductIdFromURL();
-  const product = PRODUCTS.find((p) => String(p.id) === String(id));
+  return PRODUCTS.find((p) => String(p.id) === String(id));
+}
 
-  if (!product) {
-    document.getElementById("pdpWrapper").style.display = "none";
-    document.getElementById("pdpNotFound").style.display = "block";
-    return;
-  }
+function showNotFoundMessage() {
+  document.getElementById("pdpWrapper").style.display = "none";
+  document.getElementById("pdpNotFound").style.display = "block";
+}
 
+function showProductDetail(product) {
   document.title = `${product.name} | ${BRAND.storeName}`;
   pdpState = { product, color: null, size: null, qty: 1 };
   renderProductDetail(product);
