@@ -9,7 +9,7 @@
 // ⚠️ عند نشر أي تحديث على ملفات المتجر (HTML/CSS/JS)، غيّري هذا
 // الرقم فقط (مثلاً من "v1" إلى "v2") حتى يقوم المتصفح بتفعيل نسخة
 // جديدة من الملفات المخزّنة بدل الاعتماد على النسخة القديمة.
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 
 const STATIC_CACHE_NAME = `sukrah-static-${CACHE_VERSION}`;
 const IMAGES_CACHE_NAME = `sukrah-images-${CACHE_VERSION}`;
@@ -18,7 +18,7 @@ const IMAGES_CACHE_NAME = `sukrah-images-${CACHE_VERSION}`;
 // وبدون ملفات لوحة الإدارة عمدًا (admin.html / admin.js / admin.css تبقى
 // دائمًا تُقرأ من الشبكة مباشرة، انظر شرط التجاوز داخل معالج "fetch" أدناه)
 const STATIC_ASSETS = [
-  "./index.html",
+  "./",
   "./product.html",
   "./style.css",
   "./product.css",
@@ -76,6 +76,13 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.includes("admin")) {
     return;
   }
+  // صفحات HTML: الشبكة أولًا لتجنب مشكلة التحويلات في Safari
+if (request.mode === "navigate") {
+  event.respondWith(
+    fetch(request).catch(() => caches.match("./"))
+  );
+  return;
+}
 
   // الصور المحلية داخل مجلد images/: كاش أولاً، ثم الشبكة، ثم نخزّن الناتج
   // لأي صورة جديدة تُضاف مستقبلًا تلقائيًا دون أي تعديل على هذا الملف
